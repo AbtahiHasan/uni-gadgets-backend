@@ -2,12 +2,12 @@ import { Schema, model } from 'mongoose';
 import { IProduct } from './product.interface';
 
 const ProductSchema = new Schema<IProduct>({
-  name: { type: String, required: true },
-  price: { type: Number, required: true },
-  releaseDate: { type: Date, required: true },
-  brand: { type: String, required: true },
-  modelNumber: { type: String, required: true },
-  category: { type: String, required: true },
+  name: { type: String },
+  price: { type: Number },
+  releaseDate: { type: Date },
+  brand: { type: String },
+  modelNumber: { type: String },
+  category: { type: String },
   operatingSystem: { type: String },
   connectivity: { type: [String] },
   powerSource: { type: String },
