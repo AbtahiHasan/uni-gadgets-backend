@@ -11,6 +11,42 @@ const createProduct = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getProducts = catchAsync(async (req, res) => {
+  const result = await productServices.getProductsFromDb();
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'products retrieved successfully!',
+    data: result,
+  });
+});
+const getSingleProduct = catchAsync(async (req, res) => {
+  const result = await productServices.getSingleProductFromDb(
+    req?.params?.productId,
+  );
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'product retrieved successfully!',
+    data: result,
+  });
+});
+const deleteProduct = catchAsync(async (req, res) => {
+  const result = await productServices.deleteProductFromDb(
+    req?.params?.productId,
+  );
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'product deleted successfully!',
+    data: result,
+  });
+});
 
-const productControllers = { createProduct };
+const productControllers = {
+  createProduct,
+  getProducts,
+  getSingleProduct,
+  deleteProduct,
+};
 export default productControllers;
