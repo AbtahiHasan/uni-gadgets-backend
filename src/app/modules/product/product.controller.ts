@@ -2,6 +2,7 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import httpStatus from 'http-status';
 import productServices from './product.service';
+
 const createProduct = catchAsync(async (req, res) => {
   const result = await productServices.createProductIntoDb(req.body);
   sendResponse(res, {
@@ -12,7 +13,7 @@ const createProduct = catchAsync(async (req, res) => {
   });
 });
 const getProducts = catchAsync(async (req, res) => {
-  const result = await productServices.getProductsFromDb();
+  const result = await productServices.getProductsFromDb(req?.query);
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,

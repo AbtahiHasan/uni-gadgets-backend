@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { generateQuery } from '../../utils/generateQuery';
 import { IProduct } from './product.interface';
 import Product from './product.model';
 
@@ -5,8 +7,9 @@ const createProductIntoDb = async (payload: IProduct) => {
   const result = await Product.create(payload);
   return result;
 };
-const getProductsFromDb = async () => {
-  const result = await Product.find();
+const getProductsFromDb = async (query: any) => {
+  const filter = generateQuery(query);
+  const result = await Product.find(filter);
   return result;
 };
 const getSingleProductFromDb = async (productId: string) => {
