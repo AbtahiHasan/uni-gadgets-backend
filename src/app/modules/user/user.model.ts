@@ -1,6 +1,6 @@
 import { model, Schema } from 'mongoose';
 import bcrypt from 'bcrypt';
-
+import jwt from 'jsonwebtoken';
 import config from './../../config';
 import { IUser } from './user.interface';
 
@@ -8,16 +8,14 @@ const userSchema = new Schema<IUser>(
   {
     name: {
       type: String,
-      required: [true, 'Please enter your name'],
     },
     email: {
       type: String,
-      required: [true, 'Please enter your email'],
+
       unique: true,
     },
     password: {
       type: String,
-      minlength: [6, 'password must be at least 6 characters'],
       select: false,
     },
   },
@@ -41,11 +39,15 @@ userSchema.methods.comparePassword = async function (
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-userSchema.statics.isPasswordMatched = async function (
-  plainTextPassword,
-  hashedPassword,
-) {
-  return await bcrypt.compare(plainTextPassword, hashedPassword);
+userSchema.methods.SignAccessToken = function () {
+  return jwt.sign({ id: this._id }, config.jwt_access_secret as string, {
+    expiresIn: '60d',
+  });
+};
+userSchema.methods.SignRefreshToken = function () {
+  return jwt.sign({ id: this._id }, config.jwt_refresh_secret || '', {
+    expiresIn: '365d',
+  });
 };
 
 const User = model<IUser>('User', userSchema);
