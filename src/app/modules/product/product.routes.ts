@@ -10,6 +10,12 @@ router.post(
   validateRequest(productValidations.createProductValidationSchema),
   productControllers.createProduct,
 );
+
+/*
+ * TODO
+ * update product partially
+ */
+
 // router.put('/update-product/:productId', productControllers.createProduct);
 router.get('/get-products', productControllers.getProducts);
 router.get('/get-product/:productId', productControllers.getSingleProduct);

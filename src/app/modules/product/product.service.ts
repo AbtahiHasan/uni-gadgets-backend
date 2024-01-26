@@ -4,7 +4,7 @@ import AppError from '../../errors/AppError';
 import { generateQuery } from '../../utils/generateQuery';
 import { IProduct } from './product.interface';
 import Product from './product.model';
-import { mongo } from 'mongoose';
+
 import mongoose from 'mongoose';
 
 const createProductIntoDb = async (payload: IProduct) => {
