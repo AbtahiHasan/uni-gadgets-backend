@@ -14,6 +14,10 @@ router.post(
 router.get('/get-products', productControllers.getProducts);
 router.get('/get-product/:productId', productControllers.getSingleProduct);
 router.delete('/delete-product/:productId', productControllers.deleteProduct);
+router.delete(
+  '/delete-multiple-products',
+  productControllers.deleteMultipleProducts,
+);
 
 const ProductRoutes = router;
 export default ProductRoutes;
