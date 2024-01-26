@@ -10,7 +10,7 @@ const router = Router();
 
 const moduleRoutes: TRoute[] = [
   { path: '/products', route: ProductRoutes },
-  { path: '/users', route: UserRoutes },
+  { path: '/auth', route: UserRoutes },
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
