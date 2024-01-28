@@ -6,13 +6,15 @@ import AppError from '../../errors/AppError';
 import httpStatus from 'http-status';
 import sendToken from '../../utils/jwt';
 
-const createUserIntoDb = async (payload: IRegisterUser) => {
+const createUserIntoDb = async (payload: IRegisterUser, res: Response) => {
   const isUserExists = await User.findOne({ email: payload.email });
   if (isUserExists) {
-    throw new AppError(httpStatus.NOT_FOUND, 'user already exists');
+    throw new AppError(httpStatus.CONFLICT, 'user already exists');
   }
 
-  return await User.create(payload);
+  const user = await User.create(payload);
+
+  sendToken(user, res, 'registration successfully');
 };
 const loginUser = async (payload: ILoginUser, res: Response) => {
   const isUserExists = await User.findOne({ email: payload.email }).select(
@@ -28,7 +30,7 @@ const loginUser = async (payload: ILoginUser, res: Response) => {
     throw new AppError(httpStatus.BAD_REQUEST, 'invalid credential');
   }
 
-  sendToken(isUserExists, res);
+  sendToken(isUserExists, res, 'login successfully');
 };
 
 const UserServices = { createUserIntoDb, loginUser };

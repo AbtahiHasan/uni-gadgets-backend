@@ -12,7 +12,7 @@ export const refreshTokenOption = {
   secure: config.env === 'production',
 };
 
-const sendToken = (user: IUser, res: Response) => {
+const sendToken = (user: IUser, res: Response, message: string) => {
   const accessToken = user.SignAccessToken();
   const refreshToken = user.SignRefreshToken();
 
@@ -21,8 +21,8 @@ const sendToken = (user: IUser, res: Response) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: '',
-    data: accessToken,
+    message: message,
+    data: { accessToken },
   });
 };
 

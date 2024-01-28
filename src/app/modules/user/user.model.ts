@@ -40,9 +40,13 @@ userSchema.methods.comparePassword = async function (
 };
 
 userSchema.methods.SignAccessToken = function () {
-  return jwt.sign({ id: this._id }, config.jwt_access_secret as string, {
-    expiresIn: '60d',
-  });
+  return jwt.sign(
+    { id: this._id, email: this.email },
+    config.jwt_access_secret as string,
+    {
+      expiresIn: '60d',
+    },
+  );
 };
 userSchema.methods.SignRefreshToken = function () {
   return jwt.sign({ id: this._id }, config.jwt_refresh_secret || '', {
