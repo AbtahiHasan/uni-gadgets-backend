@@ -3,13 +3,14 @@ import { z } from 'zod';
 const createProductValidationSchema = z.object({
   body: z.object({
     name: z.string(),
-    price: z.string(),
+    price: z.number(),
+    quantity: z.number(),
     releaseDate: z.string(),
     brand: z.string(),
     modelNumber: z.string(),
     category: z.string(),
     operatingSystem: z.string().optional(),
-    connectivity: z.string().array().optional(),
+    connectivity: z.string().optional(),
     powerSource: z.string().optional(),
     features: z
       .object({
@@ -18,13 +19,15 @@ const createProductValidationSchema = z.object({
         screenSize: z.number().optional(),
       })
       .optional(),
-    weight: z.number(),
+    weight: z.number().optional(),
 
-    dimensions: z.object({
-      height: z.number().optional(),
-      width: z.number().optional(),
-      depth: z.number().optional(),
-    }),
+    dimensions: z
+      .object({
+        height: z.number().optional(),
+        width: z.number().optional(),
+        depth: z.number().optional(),
+      })
+      .optional(),
   }),
 });
 
