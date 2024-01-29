@@ -16,16 +16,6 @@ const createProductValidationSchema = z.object({
       .object({
         cameraResolution: z.number().optional(),
         storageCapacity: z.number().optional(),
-        screenSize: z.number().optional(),
-      })
-      .optional(),
-    weight: z.number().optional(),
-
-    dimensions: z
-      .object({
-        height: z.number().optional(),
-        width: z.number().optional(),
-        depth: z.number().optional(),
       })
       .optional(),
   }),

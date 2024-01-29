@@ -1,22 +1,17 @@
 import { Router } from 'express';
 import productControllers from './product.controller';
-// import validateRequest from '../../middlewares/validateRequest';
-// import productValidations from './product.validation';
+import validateRequest from '../../middlewares/validateRequest';
+import productValidations from './product.validation';
 
 const router = Router();
 
 router.post(
   '/create-product',
-  // validateRequest(productValidations.createProductValidationSchema),
+  validateRequest(productValidations.createProductValidationSchema),
   productControllers.createProduct,
 );
 
-/*
- * TODO
- * update product partially
- */
-
-// router.put('/update-product/:productId', productControllers.createProduct);
+router.put('/update-product/:productId', productControllers.updateProduct);
 router.get('/get-products', productControllers.getProducts);
 router.get('/get-product/:productId', productControllers.getSingleProduct);
 router.delete('/delete-product/:productId', productControllers.deleteProduct);

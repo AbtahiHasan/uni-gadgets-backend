@@ -16,13 +16,6 @@ const ProductSchema = new Schema<IProduct>(
     features: {
       cameraResolution: { type: Number },
       storageCapacity: { type: Number },
-      screenSize: { type: Number },
-    },
-    weight: { type: Number },
-    dimensions: {
-      height: { type: Number },
-      width: { type: Number },
-      depth: { type: Number },
     },
   },
   { timestamps: true },

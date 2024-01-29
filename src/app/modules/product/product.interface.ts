@@ -14,12 +14,5 @@ export interface IProduct extends Document {
   features?: {
     cameraResolution?: number;
     storageCapacity?: number;
-    screenSize?: number;
-  };
-  weight?: number;
-  dimensions?: {
-    height: number;
-    width: number;
-    depth: number;
   };
 }

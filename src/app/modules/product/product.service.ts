@@ -1,3 +1,4 @@
+/* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
@@ -9,6 +10,23 @@ import mongoose from 'mongoose';
 
 const createProductIntoDb = async (payload: IProduct) => {
   const result = await Product.create(payload);
+  return result;
+};
+const updateProductIntoDb = async (id: string, payload: IProduct) => {
+  const { features, ...remainingData } = payload;
+  const modifiedData: any = { ...remainingData };
+  console.log({ payload });
+  console.log({ modifiedData });
+  if (features && Object.keys(features).length) {
+    for (const [key, value] of Object.entries(features)) {
+      modifiedData[`features.${key}`] = value;
+    }
+  }
+  console.log({ modifiedData });
+
+  const result = await Product.findByIdAndUpdate(id, {
+    $set: { ...modifiedData },
+  });
   return result;
 };
 const getProductsFromDb = async (query: any) => {
@@ -40,6 +58,7 @@ const deleteMultipleProductsFromDb = async (productIds: string[]) => {
 
 const productServices = {
   createProductIntoDb,
+  updateProductIntoDb,
   getProductsFromDb,
   getSingleProductFromDb,
   deleteProductFromDb,
