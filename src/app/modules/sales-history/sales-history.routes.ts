@@ -9,6 +9,7 @@ router.post(
   validateRequest(SalesHistoryValidations.createSaleValidationSchema),
   SalesHistoryControllers.createSales,
 );
+router.get('/get-sales-history', SalesHistoryControllers.getSalesHistory);
 
 const SalesHistoryRoutes = router;
 export default SalesHistoryRoutes;

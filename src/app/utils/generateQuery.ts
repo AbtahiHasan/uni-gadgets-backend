@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { IQuery } from '../interface/query';
-
-export const generateQuery = (query: IQuery) => {
-  const filter: any = {};
+export const generateQuery = (query: any) => {
+  let filter: any = {};
 
   if (query?.minPrice !== undefined) {
     filter.price = { $gte: parseFloat(query?.minPrice) };
@@ -12,32 +10,38 @@ export const generateQuery = (query: IQuery) => {
     filter.price = { ...filter.price, $lte: parseFloat(query.maxPrice) };
   }
   if (query?.releaseDate !== undefined) {
-    filter.releaseDate = { releaseDate: new Date(query?.releaseDate) };
+    filter = { ...filter, releaseDate: new Date(query?.releaseDate) };
   }
   if (query?.brand !== undefined) {
-    filter.releaseDate = { brand: query?.brand };
+    filter = { ...filter, brand: query?.brand };
   }
   if (query?.modelNumber !== undefined) {
-    filter.releaseDate = { modelNumber: query?.modelNumber };
+    filter = { ...filter, modelNumber: query?.modelNumber };
   }
   if (query?.category !== undefined) {
-    filter.releaseDate = { category: query?.category };
+    filter = { ...filter, category: query?.category };
   }
   if (query?.operatingSystem !== undefined) {
-    filter.releaseDate = { operatingSystem: query?.operatingSystem };
+    filter = { ...filter, operatingSystem: query?.operatingSystem };
   }
   if (query?.connectivity !== undefined) {
-    filter.releaseDate = { connectivity: { $elemMatch: query?.connectivity } };
+    filter = { ...filter, connectivity: query?.connectivity };
   }
   if (query?.powerSource !== undefined) {
-    filter.releaseDate = { powerSource: query?.powerSource };
+    filter = { ...filter, powerSource: query?.powerSource };
   }
-
-  /*
-   * TODO
-   * Filter by Features: Introduce filters for specific features like camera resolution, storage capacity, screen size, or any other relevant specifications.
-   * Additional Relevant Filter Parameters: Customize the filter options further based on the specific attributes and functionalities of electric gadgets, such as weight, dimensions, or compatibility with certain accessories.
-   */
+  if (query?.cameraResolution !== undefined) {
+    filter = {
+      ...filter,
+      'features.cameraResolution': parseInt(query?.cameraResolution),
+    };
+  }
+  if (query?.storage !== undefined) {
+    filter = {
+      ...filter,
+      'features.storageCapacity': parseInt(query?.storage),
+    };
+  }
 
   return filter;
 };

@@ -12,6 +12,17 @@ const createSales = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getSalesHistory = catchAsync(async (req, res) => {
+  const result = await SalesHistoryServices.getSalesHistoryFromDB(
+    req.query as Record<string, string>,
+  );
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Sales retrieved successfully',
+    data: result,
+  });
+});
 
-const SalesHistoryControllers = { createSales };
+const SalesHistoryControllers = { createSales, getSalesHistory };
 export default SalesHistoryControllers;
