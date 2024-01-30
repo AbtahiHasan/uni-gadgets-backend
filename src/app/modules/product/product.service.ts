@@ -31,6 +31,13 @@ const updateProductIntoDb = async (id: string, payload: IProduct) => {
 };
 const getProductsFromDb = async (query: any) => {
   const filter = generateQuery(query);
+
+  if (query?.searchTerms) {
+    const result = await Product.find({
+      name: { $regex: query?.searchTerms, $options: 'i' },
+    });
+    return result;
+  }
   const result = await Product.find(filter);
   return result;
 };
