@@ -41,7 +41,7 @@ userSchema.methods.comparePassword = async function (
 
 userSchema.methods.SignAccessToken = function () {
   return jwt.sign(
-    { id: this._id, email: this.email },
+    { id: this._id, email: this.email, name: this.name },
     config.jwt_access_secret as string,
     {
       expiresIn: '60d',
