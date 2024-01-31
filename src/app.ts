@@ -8,15 +8,21 @@ import express, { Application } from 'express';
 import globalErrorHandler from './app/middlewares/globalErrorhandler';
 import notFound from './app/middlewares/notFound';
 import router from './app/routes';
+import config from './app/config';
 
 const app: Application = express();
 
 //parsers
 app.use(express.json());
 app.use(cookieParser());
+
 app.use(
   cors({
-    origin: ['http://localhost:5173'],
+    origin: [
+      'http://localhost:5173',
+      'https://uni-gadgets.web.app',
+      'https://uni-gadgets.firebaseapp.com',
+    ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   }),
