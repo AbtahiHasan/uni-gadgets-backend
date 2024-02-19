@@ -4,6 +4,7 @@ export interface IProduct extends Document {
   author: string;
   name: string;
   price: number;
+  product_image: string;
   quantity: number;
   releaseDate: Date;
   brand: string;

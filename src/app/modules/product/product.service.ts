@@ -41,7 +41,6 @@ const getProductsFromDb = async (query: any) => {
   return result;
 };
 const getMyProductsFromDb = async (query: any, author: string) => {
-  console.log({ author });
   const filter = generateQuery(query);
 
   if (query?.searchTerms) {

@@ -6,6 +6,7 @@ const ProductSchema = new Schema<IProduct>(
     author: { type: String },
     name: { type: String },
     price: { type: Number },
+    product_image: { type: String },
     quantity: { type: Number },
     releaseDate: { type: Date },
     brand: { type: String },
