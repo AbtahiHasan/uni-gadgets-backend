@@ -33,6 +33,20 @@ const loginUser = async (payload: ILoginUser, res: Response) => {
   sendToken(isUserExists, res, 'login successfully');
 };
 
-const UserServices = { createUserIntoDb, loginUser };
+const changeOwnerRoleIntoDb = async (
+  email: string,
+  role: string,
+  res: Response,
+) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'user not found');
+  }
+  await User.findOneAndUpdate({ email }, { $set: { role } }, { new: true });
+
+  sendToken(user, res, 'role changed successfully');
+};
+
+const UserServices = { createUserIntoDb, loginUser, changeOwnerRoleIntoDb };
 
 export default UserServices;

@@ -8,7 +8,10 @@ import sendResponse from '../../utils/sendResponse';
 import cartServices from './cart.service';
 
 const createCart = catchAsync(async (req, res) => {
-  const result = await cartServices.createCartIntoDb(req.body);
+  const result = await cartServices.createCartIntoDb(
+    req.body,
+    req?.user?.email,
+  );
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -16,6 +19,15 @@ const createCart = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getCarts = catchAsync(async (req, res) => {
+  const result = await cartServices.getCartsFromDb(req.user?.email);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'cart retrieved successfully!',
+    data: result,
+  });
+});
 
-const cartControllers = { createCart };
+const cartControllers = { createCart, getCarts };
 export default cartControllers;
