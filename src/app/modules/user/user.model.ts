@@ -11,7 +11,6 @@ const userSchema = new Schema<IUser>(
     },
     email: {
       type: String,
-
       unique: true,
     },
     password: {
@@ -19,6 +18,7 @@ const userSchema = new Schema<IUser>(
       select: false,
     },
     role: {
+      type: String,
       enum: ['user', 'manager'],
       default: 'user',
     },
@@ -45,7 +45,7 @@ userSchema.methods.comparePassword = async function (
 
 userSchema.methods.SignAccessToken = function () {
   return jwt.sign(
-    { id: this._id, email: this.email, name: this.name },
+    { id: this._id, email: this.email, name: this.name, role: this.role },
     config.jwt_access_secret as string,
     {
       expiresIn: '60d',

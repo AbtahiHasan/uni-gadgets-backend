@@ -4,7 +4,10 @@ import httpStatus from 'http-status';
 import productServices from './product.service';
 
 const createProduct = catchAsync(async (req, res) => {
-  const result = await productServices.createProductIntoDb(req.body);
+  const result = await productServices.createProductIntoDb(
+    req.body,
+    req.user?.email,
+  );
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.CREATED,
@@ -27,6 +30,18 @@ const updateProduct = catchAsync(async (req, res) => {
 });
 const getProducts = catchAsync(async (req, res) => {
   const result = await productServices.getProductsFromDb(req?.query);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'products retrieved successfully!',
+    data: result,
+  });
+});
+const getMyProducts = catchAsync(async (req, res) => {
+  const result = await productServices.getMyProductsFromDb(
+    req?.query,
+    req.user?.email,
+  );
   sendResponse(res, {
     success: true,
     statusCode: httpStatus.OK,
@@ -72,6 +87,7 @@ const productControllers = {
   createProduct,
   updateProduct,
   getProducts,
+  getMyProducts,
   getSingleProduct,
   deleteProduct,
   deleteMultipleProducts,

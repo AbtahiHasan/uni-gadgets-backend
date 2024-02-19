@@ -19,6 +19,7 @@ router.put(
   productControllers.updateProduct,
 );
 router.get('/get-products', auth(), productControllers.getProducts);
+router.get('/get-my-products', auth(), productControllers.getMyProducts);
 router.get(
   '/get-product/:productId',
   auth(),

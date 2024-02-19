@@ -8,21 +8,20 @@ import Product from './product.model';
 
 import mongoose from 'mongoose';
 
-const createProductIntoDb = async (payload: IProduct) => {
+const createProductIntoDb = async (payload: IProduct, email: string) => {
+  payload.author = email;
   const result = await Product.create(payload);
   return result;
 };
 const updateProductIntoDb = async (id: string, payload: IProduct) => {
   const { features, ...remainingData } = payload;
   const modifiedData: any = { ...remainingData };
-  console.log({ payload });
-  console.log({ modifiedData });
+
   if (features && Object.keys(features).length) {
     for (const [key, value] of Object.entries(features)) {
       modifiedData[`features.${key}`] = value;
     }
   }
-  console.log({ modifiedData });
 
   const result = await Product.findByIdAndUpdate(id, {
     $set: { ...modifiedData },
@@ -38,6 +37,21 @@ const getProductsFromDb = async (query: any) => {
     });
     return result;
   }
+  const result = await Product.find(filter);
+  return result;
+};
+const getMyProductsFromDb = async (query: any, author: string) => {
+  console.log({ author });
+  const filter = generateQuery(query);
+
+  if (query?.searchTerms) {
+    const result = await Product.find({
+      name: { $regex: query?.searchTerms, $options: 'i' },
+      author,
+    });
+    return result;
+  }
+  filter.author = author;
   const result = await Product.find(filter);
   return result;
 };
@@ -67,6 +81,7 @@ const productServices = {
   createProductIntoDb,
   updateProductIntoDb,
   getProductsFromDb,
+  getMyProductsFromDb,
   getSingleProductFromDb,
   deleteProductFromDb,
   deleteMultipleProductsFromDb,
