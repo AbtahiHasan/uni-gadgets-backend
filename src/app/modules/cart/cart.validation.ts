@@ -1,27 +1,15 @@
 import { z } from 'zod';
 
-const createProductValidationSchema = z.object({
+const createCartValidationSchema = z.object({
   body: z.object({
-    name: z.string(),
-    price: z.number(),
+    product_name: z.string(),
     product_image: z.string(),
+    price: z.number(),
     quantity: z.number(),
-    releaseDate: z.string(),
-    brand: z.string(),
-    modelNumber: z.string(),
-    category: z.string(),
-    operatingSystem: z.string().optional(),
-    connectivity: z.string().optional(),
-    powerSource: z.string().optional(),
-    features: z
-      .object({
-        cameraResolution: z.number().optional(),
-        storageCapacity: z.number().optional(),
-      })
-      .optional(),
+    product_quantity: z.number(),
   }),
 });
 
-const productValidations = { createProductValidationSchema };
+const cartValidations = { createCartValidationSchema };
 
-export default productValidations;
+export default cartValidations;
