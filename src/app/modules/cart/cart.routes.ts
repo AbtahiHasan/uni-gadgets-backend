@@ -14,7 +14,17 @@ router.post(
   validateRequest(cartValidations.createCartValidationSchema),
   cartControllers.createCart,
 );
+router.patch(
+  '/update-quantity/:cartId',
+  auth(),
+  cartControllers.updateCartQuantity,
+);
 router.get('/get-carts', auth(), cartControllers.getCarts);
+router.delete(
+  '/delete-product-from-cart/:cartId',
+  auth(),
+  cartControllers.deleteProductFromCart,
+);
 
 const CartRoutes = router;
 export default CartRoutes;
