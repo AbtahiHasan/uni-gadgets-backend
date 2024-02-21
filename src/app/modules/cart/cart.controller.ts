@@ -20,7 +20,6 @@ const createCart = catchAsync(async (req, res) => {
   });
 });
 const updateCartQuantity = catchAsync(async (req, res) => {
-  console.log(req.body?.type, req?.params?.cartId);
   const result = await cartServices.updateCartQuantityIntoDb(
     req.body?.type,
     req?.params?.cartId,

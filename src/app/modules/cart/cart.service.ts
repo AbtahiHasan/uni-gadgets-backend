@@ -20,7 +20,7 @@ const updateCartQuantityIntoDb = async (type: string, id: string) => {
   if (type !== 'inc' && type !== 'dec') {
     throw new AppError(httpStatus.BAD_GATEWAY, 'invalid type');
   }
-  console.log({ type, id });
+
   const result = await Cart.findByIdAndUpdate(id, {
     $inc: {
       quantity: type === 'inc' ? 1 : -1,

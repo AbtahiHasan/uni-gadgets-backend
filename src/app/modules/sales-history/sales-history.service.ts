@@ -64,7 +64,7 @@ const createSalesIntoDb = async (payload: any) => {
 };
 const getSalesHistoryFromDB = async (query: Record<string, string>) => {
   const { filter } = query;
-  console.log({ filter });
+
   let filterQuery: any = {};
 
   if (filter === 'week') {
