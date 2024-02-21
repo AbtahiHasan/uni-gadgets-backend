@@ -9,7 +9,6 @@ const ProductSchema = new Schema<ICart>(
     product_image: { type: String },
     price: { type: Number },
     quantity: { type: Number, default: 1 },
-    product_quantity: { type: Number },
   },
   { timestamps: true },
 );

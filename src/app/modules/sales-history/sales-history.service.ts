@@ -1,39 +1,64 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import mongoose from 'mongoose';
+
 import Product from '../product/product.model';
-import { ISalesHistory } from './sales-history.interface';
+
 import SalesHistory from './sales-history.model';
+import Cart from '../cart/cart.model';
 
-const createSalesIntoDb = async (payload: ISalesHistory) => {
-  const session = await mongoose.startSession();
-  try {
-    session.startTransaction();
+const createSalesIntoDb = async (payload: any) => {
+  await Promise.all(
+    payload.productIds.map(async (productId: string) => {
+      const product = await Product.findById(productId);
+      const carts = await Cart.find({ email: payload.userEmail });
 
-    const product = await Product.findById(payload.productId);
+      if (product) {
+        const cart: any = carts.find(
+          (item: any) => item.product_id === productId,
+        );
+        if (cart) {
+          const updatedQuantity = product.quantity - cart.quantity;
+          if (updatedQuantity <= 0) {
+            await Product.findByIdAndDelete(productId);
+          } else {
+            await Product.findByIdAndUpdate(productId, {
+              $set: { quantity: updatedQuantity },
+            });
+          }
+        }
+      }
+    }),
+  );
 
-    if (!product) {
-      throw new Error('Product not found');
-    }
+  const deleteCartPromise = payload.cartIds.map((cartId: string) => {
+    return Cart.findByIdAndDelete(cartId);
+  });
 
-    const updatedQuantity = product.quantity - payload.quantity;
+  await Promise.all(deleteCartPromise);
 
-    if (updatedQuantity <= 0) {
-      await Product.findByIdAndDelete(payload.productId, { session });
-    } else {
-      await Product.findByIdAndUpdate(
-        payload.productId,
-        { $set: { quantity: updatedQuantity } },
-        { session },
-      );
-    }
+  // payload.productIds.map(async (productId: string) => {
+  //   const product = await Product.findById(productId);
+  //   const carts = await Cart.find({ email: payload.userEmail });
 
-    await session.commitTransaction();
-    await session.endSession();
-  } catch (err: any) {
-    await session.abortTransaction();
-    await session.endSession();
-    throw new Error(err);
-  }
+  //   if (product) {
+  //     const cart: any = carts.find((item) => item.product_id === productId);
+  //     if (cart) {
+  //       const updatedQuantity = product.quantity - cart.quantity;
+  //       if (updatedQuantity <= 0) {
+  //         await Product.findByIdAndDelete(productId);
+  //       } else {
+  //         await Product.findByIdAndUpdate(productId, {
+  //           $set: { quantity: updatedQuantity },
+  //         });
+  //       }
+  //     }
+  //   }
+  // });
+
+  // const deleteCartPromise = payload.cartIds.map((cartId: string) => {
+  //   return Cart.findByIdAndDelete(cartId);
+  // });
+
+  // await Promise.all(deleteCartPromise);
 
   return await SalesHistory.create(payload);
 };

@@ -1,8 +1,5 @@
-import { Types } from 'mongoose';
-
 export interface ISalesHistory {
-  productId: Types.ObjectId;
-  quantity: number;
+  phoneNumber: string;
   buyerName: string;
   buyDate: Date;
 }

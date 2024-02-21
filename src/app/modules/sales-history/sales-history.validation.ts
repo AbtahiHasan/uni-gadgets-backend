@@ -2,8 +2,9 @@ import { z } from 'zod';
 
 const createSaleValidationSchema = z.object({
   body: z.object({
-    productId: z.string(),
-    quantity: z.number(),
+    cartIds: z.string().array(),
+    productIds: z.string().array(),
+    phoneNumber: z.string(),
     buyerName: z.string(),
     buyDate: z.string(),
   }),

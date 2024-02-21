@@ -3,8 +3,7 @@ import { ISalesHistory } from './sales-history.interface';
 
 const SalesHistorySchema = new Schema<ISalesHistory>(
   {
-    productId: { type: Schema.Types.ObjectId, ref: 'Product' },
-    quantity: { type: Number },
+    phoneNumber: { type: String },
     buyerName: { type: String },
     buyDate: { type: Date },
   },
